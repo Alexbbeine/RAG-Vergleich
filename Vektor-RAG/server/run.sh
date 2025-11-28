@@ -1,0 +1,1 @@
+docker run --network=host --gpus=all --runtime=nvidia -it rag-framework

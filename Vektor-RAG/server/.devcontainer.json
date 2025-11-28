@@ -1,0 +1,48 @@
+{
+    "name": "rag.dev",
+    "build": {
+        "dockerfile": "Dockerfile",
+        "target": "rag-framework-devcontainer",
+        "options": [
+            "--network=host"
+        ]
+    },
+    "customizations": {
+        "build": {
+            "options": [
+                "--network=host"
+            ]
+        },
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "ms-python.debugpy",
+                "ms-python.vscode-pylance",
+                "github.copilot",
+                "github.copilot-chat",
+                "ms-python.black-formatter",
+                "ms-azuretools.vscode-containers"
+            ],
+            "settings": {
+                "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+            }
+        }
+    },
+    "runArgs": [
+        "--network=host",
+        "--gpus=all",
+        "--runtime=nvidia",
+        "--ipc=host"
+    ],
+    "forwardPorts": [
+        8000,
+        80,
+        443
+    ],
+    "mounts": [
+        "type=volume,target=${containerWorkspaceFolder}/.venv"
+    ],
+    "workspaceFolder": "/home/ubuntu/app",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/ubuntu/app,type=bind,consistency=cached",
+    "remoteUser": "ubuntu"
+}

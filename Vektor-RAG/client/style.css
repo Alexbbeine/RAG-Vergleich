@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+input, textarea, button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.document {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.document-title {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.document-actions {
+    margin-top: 10px;
+}
+
+.document-actions button {
+    width: auto;
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #dc3545;
+}
+
+.document-actions button:hover {
+    background-color: #c82333;
+}
+
+.search-result {
+    border-left: 3px solid #007bff;
+    padding-left: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 4px;
+    margin: 10px 0;
+}
+
+.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.search-form input[type="text"] {
+    flex: 1;
+    margin: 0;
+}
+
+.search-form label {
+    white-space: nowrap;
+    font-size: 14px;
+    color: #666;
+}
+
+.search-form input[type="number"] {
+    width: 70px;
+    margin: 0;
+}

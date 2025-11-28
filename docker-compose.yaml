@@ -1,0 +1,53 @@
+services:
+
+  graph-rag:
+    build:
+      context: ./Graph-RAG
+      dockerfile: Dockerfile
+    container_name: neo4j
+    environment:
+        - NEO4J_AUTH=neo4j/ps_neo4jj
+    ports:
+      - 7474:7474
+      - 7687:7687
+    restart: unless-stopped
+    volumes:
+      - ./Graph-Rag/data:/data
+      - ./Graph-Rag/logs:/logs
+      - ./Graph-Rag/plugins:/plugins
+      - ./Graph-Rag/config:/config
+  
+  vektor-rag:
+    build:
+      context: ./Vektor-RAG/server
+      dockerfile: Dockerfile
+    container_name: chroma
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    environment:
+      - PYTHONUNBUFFERED=1         # Logs sofort anzeigen
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: open-webui
+    depends_on:
+      - ollama
+    ports:
+      - 3000:8080
+    volumes:
+      - ./open-webui:/app/backend/data
+    environment:
+      - 'OLLAMA_BASE_URL=http://ollama:11434'
+      - 'WEBUI_SECRET_KEY='                 # Nur in Prod
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ./ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+   

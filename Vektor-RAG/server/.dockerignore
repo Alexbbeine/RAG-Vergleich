@@ -1,0 +1,5 @@
+.devcontainer.json
+.venv/
+.env
+.env.*
+*.env

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG Framework</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>RAG Framework</h1>
+
+    <!-- Add Document -->
+    <div class="container">
+        <h2>Dokument hinzufügen</h2>
+        <input type="text" id="docTitle" placeholder="Dokumenttitel">
+        <textarea id="docContent" placeholder="Dokumentinhalt"></textarea>
+        <button onclick="addDocument()">Dokument hinzufügen</button>
+    </div>
+
+    <!-- Search -->
+    <div class="container">
+        <h2>Dokumente durchsuchen</h2>
+        <div class="search-form">
+            <input type="text" id="searchQuery" placeholder="Suchanfrage">
+            <label for="numResults">Max. Ergebnisse:</label>
+            <input type="number" id="numResults" value="5" min="1" max="20">
+        </div>
+        <button onclick="searchDocuments()">Suchen</button>
+        <div id="searchResults"></div>
+    </div>
+
+    <!-- All Documents -->
+    <div class="container">
+        <h2>Alle Dokumente</h2>
+        <button onclick="loadAllDocuments()">Aktualisieren</button>
+        <div id="allDocuments"></div>
+    </div>
+
+    <!-- Messages -->
+    <div id="messages"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Vektor-RAG"
+version = "0.1"
+authors = [
+    { name = "Alexander Beine, Kenan Pehlivan, Driton Rama, Chanpreet Singh "},
+]
+description = "Vektor-RAG"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'fastmcp',
+    'fastapi',
+    'uvicorn',
+    'pydantic',
+    'sentence-transformers',
+    'chromadb',
+    'openai',
+    'torch'
+]
+
+[project.scripts]
+rag_server = "core.__main__:main"
+dragon_management = "examples.dragon_management_server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["core"]
+include-package-data = true
+
+
+[project.optional-dependencies]
+development = [
+    'debugpy~=1.8.2',
+    'black~=24.4.2',
+]
+test = [
+    'pytest~=8.2.2',
+    'pytest-cov~=5.0.0',
+    'coverage~=7.6.0',
+]
+
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+include = '\.pyi?$'
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["src"]
