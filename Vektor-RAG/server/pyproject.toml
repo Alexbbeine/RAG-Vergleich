@@ -28,7 +28,7 @@ dependencies = [
 
 [project.scripts]
 rag_server = "core.__main__:main"
-dragon_management = "examples.dragon_management_server:main"
+seeder = "examples.seeder:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}

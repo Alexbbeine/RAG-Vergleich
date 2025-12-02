@@ -1,9 +1,11 @@
+import os
 from fastmcp import settings
 from fastmcp import FastMCP
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from typing import List
+from typing import List, Optional
 import uvicorn
+from contextlib import asynccontextmanager
 
 from .rag_service import RAGService
 from .embedders.sentence_transformer_embedder import SentenceTransformerEmbedder
@@ -11,15 +13,30 @@ from .vector_stores.chroma_vector_store import ChromaVectorStore
 from .schemas import AddDocumentRequest, UpdateDocumentRequest, SearchRequest, DocumentResponse, SearchResult, DocumentListItem
 from .exceptions import DocumentAlreadyExistsError, DocumentUpdateError, DocumentDeleteError
 
+VECTOR_COLLECTION = os.getenv("VECTOR_COLLECTION", "rag")
+EMBEDDER_MODEL = os.getenv("EMBEDDER_MODEL", "BAAI/bge-m3")
+
+
 settings.stateless_http = True
 mcp = FastMCP(name="RAG Framework", instructions="Simple RAG framework with document indexing and search")
 mcp_app = mcp.http_app()
-app = FastAPI(lifespan=mcp_app.lifespan)
 
-# Initialize RAG service
-embedder = SentenceTransformerEmbedder("BAAI/bge-m3")
-vector_store = ChromaVectorStore("documents")
-rag_service = RAGService(embedder, vector_store)
+rag_service: Optional[RAGService] = None # wird in main() gebaut
+
+def build_rag() -> RAGService:
+    embedder = SentenceTransformerEmbedder(EMBEDDER_MODEL)
+    # ChromaVectorStore akzeptiert nur den Namen/Collection positional
+    vector_store = ChromaVectorStore(VECTOR_COLLECTION)
+    return RAGService(embedder, vector_store)
+
+@asynccontextmanager
+async def combinded_lifespan(app: FastAPI):
+    # MCP-Lebenszyklus beibehalten
+    async with mcp_app.lifespan(app):
+        yield
+
+app = FastAPI(lifespan= combinded_lifespan)
+
 
 # Add CORS middleware
 app.add_middleware(
@@ -92,7 +109,18 @@ def preflight(path: str):
     return ""
 
 
-def main():
+def main(rag_service_override: Optional[RAGService] = None):
+    global rag_service
+
+    # ggf. injizierte Instanz aus dem Seeder übernehmen
+    if rag_service_override is not None:
+        rag_service = rag_service_override
+
+    # sonst hier bauen
+    if rag_service_override is None:
+        rag_service = build_rag()
+
+    # MCP unter /mcp mounten
     app.mount("/", mcp_app)
     uvicorn.run(app, host="0.0.0.0", port=8000)
 

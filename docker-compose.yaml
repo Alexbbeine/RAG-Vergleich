@@ -1,5 +1,4 @@
 services:
-
   graph-rag:
     build:
       context: ./Graph-RAG

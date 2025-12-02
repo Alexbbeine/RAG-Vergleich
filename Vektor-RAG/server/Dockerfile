@@ -16,14 +16,14 @@ COPY src ./src
 
 # 4️⃣ Python-Abhängigkeiten direkt global installieren
 RUN pip install --upgrade pip \
-    && pip install torch==2.6.0+cu124 --index-url https://download.pytorch.org/whl/cu124 \
+    && pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124 \
     && pip install .
 
 # 5️⃣ Port freigeben
 EXPOSE 8000
 
 # 6️⃣ Startbefehl
-CMD ["python3","-m", "src.core"]
+CMD ["python3","-u", "./src/examples/seeder.py"]
 
 
 ######## Devcontainer ########

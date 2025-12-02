@@ -1,11 +1,12 @@
-"""Dragon Management RAG Example - Complete setup in one file"""
+"""Data RAG Example - Complete setup in one file"""
 
+import os
 from core.document import Document
 from core.rag_service import RAGService
 from core.embedders.sentence_transformer_embedder import SentenceTransformerEmbedder
 from core.vector_stores.chroma_vector_store import ChromaVectorStore
 
-# Example dragon management documents
+# Example documents
 DOCUMENTS = [
     Document(
         title="Grundlagen der Drachenpflege",
@@ -45,18 +46,18 @@ DOCUMENTS = [
 def main():
     # Setup RAG
     embedder = SentenceTransformerEmbedder("BAAI/bge-m3")
-    vector_store = ChromaVectorStore("dragon_management")
+    vector_store = ChromaVectorStore(os.getenv("VECTOR_COLLECTION", "rag"))
     rag_service = RAGService(embedder, vector_store)
 
     # Load documents
     for doc in DOCUMENTS:
         rag_service.add_document(doc.title, doc.content)
+    print("Dokumente erfolgreich geladen")
 
     # Start server
-    import core.__main__
-    core.__main__.rag_service = rag_service
-    core.__main__.main()
-
+    import core.__main__ as core_main
+    setattr(core_main, "rag_service", rag_service)
+    core_main.main()
 
 if __name__ == "__main__":
     main()
