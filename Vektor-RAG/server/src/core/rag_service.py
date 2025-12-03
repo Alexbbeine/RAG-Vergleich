@@ -37,7 +37,11 @@ class RAGService:
         if not success:
             raise DocumentDeleteError(doc_id)
 
-    def search(self, query: str, n_results: int = 5) -> List[Dict[str, Any]]:
+    def search(self, query: str, n_results: int | None = None) -> List[Dict[str, Any]]:
+        # Falls nichts oder None gesetzt wurde, dann Standardwert setzen
+        if n_results is None:
+            n_results = 5
+
         query_embedding = self.embedder.embed(query)
         return self.vector_store.search(query_embedding, n_results)
 
