@@ -5,16 +5,25 @@ services:
       dockerfile: Dockerfile
     container_name: neo4j
     environment:
-        - NEO4J_AUTH=neo4j/ps_neo4jj
+        NEO4J_AUTH: "neo4j/ps_neo4jj"
+        NEO4J_apoc_export_file_enabled: "true"
+        NEO4J_apoc_import_file_enabled: "true"
+        NEO4J_apoc_import_file_use__neo4j__config: "true"
+        NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
     ports:
       - 7474:7474
       - 7687:7687
     restart: unless-stopped
+    depends_on:
+     - ollama
     volumes:
       - ./Graph-Rag/data:/data
       - ./Graph-Rag/logs:/logs
       - ./Graph-Rag/plugins:/plugins
       - ./Graph-Rag/config:/config
+    networks:
+      - rag-net
+      
   
   vektor-rag:
     build:
@@ -26,6 +35,8 @@ services:
     restart: unless-stopped
     environment:
       - PYTHONUNBUFFERED=1         # Logs sofort anzeigen
+    networks:
+      - rag-net
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:latest
@@ -46,7 +57,16 @@ services:
     volumes:
       - ./ollama:/root/.ollama
     container_name: ollama
+    ports:
+      - "11434:11434"
     pull_policy: always
     tty: true
     restart: unless-stopped
+    networks:
+      - rag-net
+
+networks:
+  rag-net:
+    external:
+      false
    
