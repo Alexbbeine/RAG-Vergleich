@@ -1,5 +1,9 @@
 ollama
 open-webui
-Graph-RAG/data/
-Graph-RAG/logs/
-Graph-RAG/import/
+Graph-RAG/neo4j/data/
+Graph-RAG/neo4j/logs/
+Graph-RAG/neo4j/import/
+
+Graphh-RAG/neo4j/data/
+Graphh-RAG/neo4j/logs/
+Graphh-RAG/neo4j/import/

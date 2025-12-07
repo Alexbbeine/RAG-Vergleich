@@ -1,7 +1,7 @@
 services:
-  graph-rag:
+  neo4j:
     build:
-      context: ./Graph-RAG
+      context: ./Graph-RAG/neo4j
       dockerfile: Dockerfile
     container_name: neo4j
     environment:
@@ -17,14 +17,26 @@ services:
     depends_on:
      - ollama
     volumes:
-      - ./Graph-Rag/data:/data
-      - ./Graph-Rag/logs:/logs
-      - ./Graph-Rag/plugins:/plugins
-      - ./Graph-Rag/config:/config
+      - ./Graph-Rag/neo4j/data:/data
+      - ./Graph-Rag/neo4j/logs:/logs
+      - ./Graph-Rag/neo4j/plugins:/plugins
+      - ./Graph-Rag/neo4j/config:/config
     networks:
       - rag-net
-      
-  
+    
+  graph-rag:
+    build:
+      context: ./Graph-Rag
+      dockerfile: Dockerfile
+    container_name: graph-rag
+    ports:
+      - 8008:8000
+    restart: unless-stopped
+    depends_on:
+     - neo4j
+    networks:
+      - rag-net
+
   vektor-rag:
     build:
       context: ./Vektor-RAG/server
@@ -33,6 +45,8 @@ services:
     ports:
       - 8000:8000
     restart: unless-stopped
+    depends_on:
+     - ollama
     environment:
       - PYTHONUNBUFFERED=1         # Logs sofort anzeigen
     networks:
@@ -58,7 +72,7 @@ services:
       - ./ollama:/root/.ollama
     container_name: ollama
     ports:
-      - "11434:11434"
+      - 30001:11434
     pull_policy: always
     tty: true
     restart: unless-stopped

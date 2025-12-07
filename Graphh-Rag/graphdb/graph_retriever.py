@@ -1,15 +1,8 @@
-def get_retriever(vectorstore):
-    return vectorstore.as_retriever(
-        search_kwargs={"k": 5}
-    )
+from llm.entity_extraction import entity_chain
+from config import graph
+from embeddings.vector_retriever import vector_retriever
 
-
-# Fulltext index query
 def graph_retriever(question: str) -> str:
-    """
-    Collects the neighborhood of entities mentioned
-    in the question
-    """
     result = ""
     entities = entity_chain.invoke(question)
     for entity in entities.names:
@@ -39,6 +32,6 @@ def full_retriever(question: str):
     final_data = f"""Graph data:
 {graph_data}
 vector data:
-{"#Document ". join(vector_data)}
+{"#Document ".join(vector_data)}
     """
     return final_data
