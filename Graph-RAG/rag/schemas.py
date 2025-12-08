@@ -1,5 +1,5 @@
 from langchain_core.prompts import ChatPromptTemplate
-from pydantic import BaseModel  
+from pydantic import BaseModel, Field
 from langchain_experimental.llms import OllamaFunctions  
 
 

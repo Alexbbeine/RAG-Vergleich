@@ -22,7 +22,7 @@ def main():
     index()
 
     # 5. Graph-Retriever
-    print(graph_retriever("Who is Nonna Lucia?"))
+    print(graph_retriever(graph, "Who is Nonna Lucia?"))
 
     # 5. RAG Chain
     chain = get_rag_chain()

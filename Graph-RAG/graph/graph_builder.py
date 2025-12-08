@@ -16,6 +16,5 @@ def build_graph(graph, input_file: str):
 
     transformer = LLMGraphTransformer(llm=llm)
     graph_documents = transformer.convert_to_graph_documents(chunks)
-    graph_documents[0]
-
+    
     graph.add_graph_documents(graph_documents, baseEntityLabel=True, include_source=True)

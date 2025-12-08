@@ -1,3 +1,5 @@
+from rag.schemas.py import entity_chain
+
 def get_retriever(vectorstore):
     return vectorstore.as_retriever(
         search_kwargs={"k": 5}
@@ -5,7 +7,7 @@ def get_retriever(vectorstore):
 
 
 # Fulltext index query
-def graph_retriever(question: str) -> str:
+def graph_retriever(graph, question: str) -> str:
     """
     Collects the neighborhood of entities mentioned
     in the question
@@ -33,9 +35,9 @@ def graph_retriever(question: str) -> str:
     return result
 
 
-def full_retriever(question: str):
-    graph_data = graph_retriever(question)
-    vector_data = [el.page_content for el in vector_retriever.invoke(question)]
+def full_retriever(graph, retriever, question: str):
+    graph_data = graph_retriever(graph, question)
+    vector_data = [el.page_content for el in retriever.invoke(question)]
     final_data = f"""Graph data:
 {graph_data}
 vector data:

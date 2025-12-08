@@ -16,3 +16,4 @@ def build_vectorstore(graph):
         password=NEO4J_PASSWORD,
     )
     return vectorstore
+
