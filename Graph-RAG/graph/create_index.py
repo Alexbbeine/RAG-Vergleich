@@ -25,5 +25,5 @@ def index():
         create_index()
     except Exception as e:
         print("Index creation failed:", e)
-
-driver.close()
+    finally:
+        driver.close()

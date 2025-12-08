@@ -2,7 +2,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Neo4jVector
 from config.settings import NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD
 
-def build_vectorstore(graph):
+def build_vectorstore():
     embeddings = HuggingFaceEmbeddings(model_name="BAAI/bge-m3", encode_kwargs={"normalize_embeddings": True})
 
     vectorstore = Neo4jVector.from_existing_graph(

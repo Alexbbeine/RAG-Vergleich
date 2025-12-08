@@ -1,4 +1,4 @@
-from rag.schemas.py import entity_chain
+from rag.schemas import entity_chain
 
 def get_retriever(vectorstore):
     return vectorstore.as_retriever(
@@ -20,11 +20,13 @@ def graph_retriever(graph, question: str) -> str:
             YIELD node,score
             CALL {
               WITH node
-              MATCH (node)-[r:!MENTIONS]->(neighbor)
+              MATCH (node)-[r]->(neighbor)
+              WHERE type(r) <> 'MENTIONS'
               RETURN node.id + ' - ' + type(r) + ' -> ' + neighbor.id AS output
               UNION ALL
               WITH node
-              MATCH (node)<-[r:!MENTIONS]-(neighbor)
+              MATCH (node)<-[r]-(neighbor)
+              WHERE type(r) <> 'MENTIONS'
               RETURN neighbor.id + ' - ' + type(r) + ' -> ' +  node.id AS output
             }
             RETURN output LIMIT 50

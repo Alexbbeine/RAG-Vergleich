@@ -5,7 +5,7 @@ from langchain_core.runnables import RunnablePassthrough
 from rag.retriever import full_retriever
 
 def get_rag_chain():
-    llm = OllamaFunctions(model="llama3.1:8b", temperature=0, format="json", base_url="http://ollama:11434")
+    llm = ChatOllama(model="llama3.1:8b", temperature=0, format="json", base_url="http://ollama:11434")
 
     template = """
     You are a helpful assistant for Graph RAG.
@@ -18,9 +18,12 @@ def get_rag_chain():
 
     prompt = ChatPromptTemplate.from_template(template)
 
+    def context_fn(question: str) -> str:
+        return full_retriever(graph, retriever, question)
+    
     chain = (
         {
-            "context": full_retriever,
+            "context": context_fn,
             "question": RunnablePassthrough(),
         }
         | prompt

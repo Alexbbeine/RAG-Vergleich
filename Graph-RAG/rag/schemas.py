@@ -1,6 +1,6 @@
 from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
-from langchain_experimental.llms import OllamaFunctions  
+from langchain_experimental.llms.ollama_functions import OllamaFunctions
 
 
 class Entities(BaseModel):
@@ -28,5 +28,3 @@ prompt = ChatPromptTemplate.from_messages(
 
 llm = OllamaFunctions(model="llama3.1:8b", temperature=0, format="json", base_url="http://ollama:11434")
 entity_chain = llm.with_structured_output(Entities)
-
-entity_chain.invoke("Who are Nonna Lucia and Giovanni Caruso?")

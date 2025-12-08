@@ -13,7 +13,7 @@ def main():
     build_graph(graph, "dummytext.txt")
 
     # 2. Vectorstore
-    vectorstore = build_vectorstore(graph)
+    vectorstore = build_vectorstore()
 
     # 3. Retriever
     retriever = get_retriever(vectorstore)
@@ -25,7 +25,7 @@ def main():
     print(graph_retriever(graph, "Who is Nonna Lucia?"))
 
     # 5. RAG Chain
-    chain = get_rag_chain()
+    chain = get_rag_chain(graph, retriever)
 
     # Beispielanfrage
     question = "Who is Nonna Lucia? Did she teach anyone about restaurants or cooking?"
