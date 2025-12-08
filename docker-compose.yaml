@@ -1,7 +1,7 @@
 services:
   neo4j:
     build:
-      context: ./Graph-RAG/neo4j
+      context: ./Hybrid-RAG/neo4j
       dockerfile: Dockerfile
     container_name: neo4j
     environment:
@@ -17,16 +17,16 @@ services:
     depends_on:
      - ollama
     volumes:
-      - ./Graph-Rag/neo4j/data:/data
-      - ./Graph-Rag/neo4j/logs:/logs
-      - ./Graph-Rag/neo4j/plugins:/plugins
-      - ./Graph-Rag/neo4j/config:/config
+      - ./Hybrid-Rag/neo4j/data:/data
+      - ./Hybrid-Rag/neo4j/logs:/logs
+      - ./Hybrid-Rag/neo4j/plugins:/plugins
+      - ./Hybrid-Rag/neo4j/config:/config
     networks:
       - rag-net
     
   graph-rag:
     build:
-      context: ./Graph-Rag
+      context: ./Hybrid-Rag
       dockerfile: Dockerfile
     container_name: graph-rag
     ports:
