@@ -4,7 +4,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from rag.retriever import full_retriever
 
-def get_rag_chain():
+def get_rag_chain(graph, retriever):
     llm = ChatOllama(model="llama3.1:8b", temperature=0, format="json", base_url="http://ollama:11434")
 
     template = """

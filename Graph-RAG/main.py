@@ -7,6 +7,8 @@ from graph.create_index import index
 from rag.rag_chain import get_rag_chain
 
 def main():
+
+    # 0. Graph-Objekt
     graph = get_graph()
 
     # 1. Graph-Daten aufbauen
