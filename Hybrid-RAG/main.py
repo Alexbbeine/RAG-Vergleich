@@ -30,7 +30,7 @@ def main():
     chain = get_rag_chain(graph, retriever)
 
     # Beispielanfragen
-    question_1 = "Describe the structure of the Moreno family: who belongs to each generation, how they are related to each other, and where each nuclear family lives."
+    question_1 = "Who is Isabel?"
     print(chain.invoke(question_1))
 
     question_2 = "Describe the structure of the Moreno family: who belongs to each generation, how they are related to each other, and where each nuclear family lives."
