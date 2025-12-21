@@ -24,14 +24,13 @@ services:
     networks:
       - rag-net
     
-  graph-rag:
+  hybrid-rag:
     build:
       context: ./Hybrid-Rag
       dockerfile: Dockerfile
-    container_name: graph-rag
+    container_name: hybrid-rag
     ports:
       - 8008:8000
-    restart: unless-stopped
     depends_on:
      - neo4j
     networks:
@@ -41,7 +40,7 @@ services:
     build:
       context: ./Vektor-RAG/server
       dockerfile: Dockerfile
-    container_name: chroma
+    container_name: vekor-rag
     ports:
       - 8000:8000
     restart: unless-stopped
@@ -65,6 +64,8 @@ services:
       - 'OLLAMA_BASE_URL=http://ollama:11434'
       - 'WEBUI_SECRET_KEY='                 # Nur in Prod
     restart: unless-stopped
+    networks:
+     - rag-net
 
   ollama:
     image: ollama/ollama:latest
